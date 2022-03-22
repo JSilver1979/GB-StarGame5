@@ -30,6 +30,10 @@ public class Hero {
     private Weapon currentWeapon;
     private int money;
 
+    public int getHp() {
+        return hp;
+    }
+
     public Weapon getCurrentWeapon() {
         return currentWeapon;
     }
@@ -61,7 +65,7 @@ public class Hero {
         this.velocity = new Vector2(0, 0);
         this.angle = 0.0f;
         this.enginePower = 700.0f;
-        this.hpMax = 100;
+        this.hpMax = 10;
         this.hp = hpMax;
         this.sb = new StringBuilder();
         this.hitArea = new Circle(position, 28);

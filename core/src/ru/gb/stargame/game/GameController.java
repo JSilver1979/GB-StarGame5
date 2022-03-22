@@ -13,6 +13,15 @@ public class GameController {
     private PowerUpsController powerUpsController;
     private Hero hero;
     private Vector2 tempVec;
+    private boolean isPaused;
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
+    }
 
     public PowerUpsController getPowerUpsController() {
         return powerUpsController;
@@ -46,6 +55,7 @@ public class GameController {
         this.powerUpsController = new PowerUpsController(this);
         this.hero = new Hero(this);
         this.tempVec = new Vector2();
+        this.isPaused = false;
 
         for (int i = 0; i < 3; i++) {
             asteroidController.setup(MathUtils.random(0, ScreenManager.SCREEN_WIDTH),
@@ -55,15 +65,25 @@ public class GameController {
     }
 
     public void update(float dt) {
-        background.update(dt);
-        bulletController.update(dt);
-        asteroidController.update(dt);
-        particleController.update(dt);
-        powerUpsController.update(dt);
-        hero.update(dt);
-        checkCollisions();
+
+        if (!isPaused) {
+            background.update(dt);
+            bulletController.update(dt);
+            asteroidController.update(dt);
+            particleController.update(dt);
+            powerUpsController.update(dt);
+            hero.update(dt);
+            checkCollisions();
+            checkHH();
+        }
     }
 
+    public void checkHH() {
+        if (hero.getHp() <= 0) {
+            ScreenManager.getInstance().setFinalScore(hero.getScore());
+            ScreenManager.getInstance().changeScreen(ScreenManager.ScreenType.GAMEOVER);
+        }
+    }
 
     public void checkCollisions() {
         //столкновение астероидов и героя
